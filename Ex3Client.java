@@ -1,5 +1,5 @@
 /*  Authors:	Josue Herrera		
-/				Kean Jafari
+/		Kean Jafari
 */
 
 import java.util.*;
