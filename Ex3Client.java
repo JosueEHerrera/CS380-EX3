@@ -47,10 +47,10 @@ public class Ex3Client{
 
 
 		//Relay message to server
-		byte[] asArray = new byte[2];
-		asArray[0] = (byte)((cksum & 0xFF00) >>> 8);
-		asArray[1] = (byte)((cksum & 0x00FF));
-		out.write(asArray);
+		byte[] newBytes = new byte[2];
+		newBytes[0] = (byte)((cksum & 0xFF00) >>> 8);
+		newBytes[1] = (byte)((cksum & 0x00FF));
+		out.write(newBytes);
 
 		//Checks response from server
 		int serverResponse = is.read();
@@ -64,7 +64,7 @@ public class Ex3Client{
 		socket.close();
 		System.out.println("Disconnected from Server.");
 
-		}catch (Exception e){e.printStackTrace();}
+		} catch (Exception e){e.printStackTrace();}
 	}
 	
 	//Converts stream to uppercase hex
@@ -91,17 +91,17 @@ public class Ex3Client{
 	public static short checksum(byte[] b) {
 		int length = b.length;
 		int i = 0;
-	    long total = 0;
+	   	long total = 0;
 	   	long sum = 0;
 
-	    // add to sum and bit shift
-	    while (length > 1) {
-	    	sum = sum + ((b[i] << 8 & 0xFF00) | ((b[i+1]) & 0x00FF));
-	    	i = i + 2;
-	    	length = length - 2;
+	    	// add to sum and bit shift
+	   	while (length > 1) {
+	    		sum = sum + ((b[i] << 8 & 0xFF00) | ((b[i+1]) & 0x00FF));
+	    		i = i + 2;
+	    		length = length - 2;
 
-	    	// splits byte into 2 words, adds them.
-	    	if ((sum & 0xFFFF0000) > 0) {
+	    		// splits byte into 2 words, adds them.
+	    		if ((sum & 0xFFFF0000) > 0) {
 	    		sum = sum & 0xFFFF;
 	    		sum++;
 	    	}
@@ -110,12 +110,12 @@ public class Ex3Client{
 	    // calculates and adds overflowed bits, if any
 		if (length > 0) {
     		sum += b[i] << 8 & 0xFF00;
-    		if ((sum & 0xFFFF0000) > 0) {
-    			sum = sum & 0xFFFF;
-    			sum++;
+    			if ((sum & 0xFFFF0000) > 0) {
+    				sum = sum & 0xFFFF;
+    				sum++;
+    			}
     		}
-    	}
-	    total = (~((sum & 0xFFFF)+(sum >> 16))) & 0xFFFF;
-	    return (short)total;
+	   	total = (~((sum & 0xFFFF)+(sum >> 16))) & 0xFFFF;
+	   	return (short)total;
 	}	
 }
